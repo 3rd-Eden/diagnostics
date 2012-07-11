@@ -2,7 +2,7 @@
   "name": "diagnostics",
   "version": "0.0.0",
   "description": "event loop diagnostics",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "make test"
   },
