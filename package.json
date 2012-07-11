@@ -1,0 +1,26 @@
+{
+  "name": "diagnostics",
+  "version": "0.0.0",
+  "description": "event loop diagnostics",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "event",
+    "loop",
+    "diagnostics",
+    "event",
+    "loop",
+    "diagnostic",
+    "metrics",
+    "stats",
+    "goats"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "devDependencies": {
+      "mocha": "1.3.0",
+      "chai": "1.1.0"
+  }
+}
