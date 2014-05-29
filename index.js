@@ -74,6 +74,12 @@ function factory(name, options) {
   options.stream = options.stream || stream;
 
   //
+  // Allow multiple streams, so make sure it's an array which makes iteration
+  // easier.
+  //
+  if (!Array.isArray(options.stream)) options.stream = [options.stream];
+
+  //
   // Add the namespace an re-calculate the max-length of the namespace so we can
   // have a consistent indentation.
   //
@@ -118,11 +124,16 @@ function factory(name, options) {
       line
     ].join('');
 
-    options.stream.write(
-      util.format.apply(this, [line].concat(
+    //
+    // Use util.format so we can follow the same API as console.log.
+    //
+    line = util.format.apply(this, [line].concat(
         Array.prototype.slice.call(arguments, 1)
-      )
-    ) + '\n');
+    )) + '\n';
+
+    options.stream.forEach(function each(stream) {
+      stream.write(line);
+    });
 
     //
     // Update the previous call with the current time.
