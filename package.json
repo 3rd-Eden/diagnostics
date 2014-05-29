@@ -1,0 +1,42 @@
+{
+  "name": "diagnostics",
+  "version": "0.0.0",
+  "description": "Tools for debugging your node.js modules and event loop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/3rd-Eden/diagnostics.git"
+  },
+  "keywords": [
+    "debug",
+    "debugger",
+    "debugging",
+    "diagnostic",
+    "diagnostics",
+    "event",
+    "loop",
+    "metrics",
+    "stats"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/3rd-Eden/diagnostics/issues"
+  },
+  "homepage": "https://github.com/3rd-Eden/diagnostics",
+  "devDependencies": {
+    "assume": "0.0.x",
+    "mocha": "1.19.x",
+    "pre-commit": "0.0.x"
+  },
+  "dependencies": {
+    "colornames": "0.0.x",
+    "env-variable": "0.0.x",
+    "kuler": "0.0.0",
+    "pretty-hrtime": "^0.2.1",
+    "text-hex": "0.0.0"
+  }
+}
