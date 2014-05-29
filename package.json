@@ -4,7 +4,7 @@
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec --ui bdd test.js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,8 @@
   "dependencies": {
     "colornames": "0.0.x",
     "env-variable": "0.0.x",
-    "kuler": "0.0.0",
-    "pretty-hrtime": "^0.2.1",
-    "text-hex": "0.0.0"
+    "kuler": "0.0.x",
+    "pretty-hrtime": "0.2.x",
+    "text-hex": "0.0.x"
   }
 }
