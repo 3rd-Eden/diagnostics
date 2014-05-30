@@ -3,6 +3,7 @@
 var human = require('pretty-hrtime')
   , env = require('env-variable')
   , Stream = require('stream')
+  , colorjs = require('color')
   , hex = require('text-hex')
   , kuler = require('kuler')
   , util = require('util');
@@ -69,7 +70,7 @@ function factory(name, options) {
   if (!enabled(name)) return function nope() {};
 
   options.colors = 'colors' in options ? options.colors : tty;
-  options.color = options.color || options.colour || hex(name);
+  options.color = options.color || options.colour || paint(name);
   options.ansi = options.colors ? kuler(name, options.color) : name;
   options.stream = options.stream || stream;
 
@@ -167,6 +168,25 @@ function enabled(name) {
 }
 
 /**
+ * Generate a color for a given name. But be reasonably smart about it by
+ * understanding name spaces and coloring each namespace a bit lighter so they
+ * still have the same base color as the root.
+ *
+ * @param {String} name The namespace
+ * @returns {String} color
+ * @api private
+ */
+function paint(name) {
+  name = name.split(':');
+
+  for (var base = hex(name[0]), i = 0, l = name.length - 1; i < l; i++) {
+    base = colorjs(base).mix(colorjs(hex(name[i + 1]))).saturate(1).hexString();
+  }
+
+  return base;
+}
+
+/**
  * Attempt to resolve the name of the application by searching for the
  * package.json use the name property of that. If we cannot find a name property
  * we will use the name of the folder of the module that required us.
@@ -222,6 +242,7 @@ function to(output) {
 //
 factory.resolve = resolve;
 factory.enabled = enabled;
+factory.paint = paint;
 factory.to = to;
 
 //

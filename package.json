@@ -33,6 +33,7 @@
     "pre-commit": "0.0.x"
   },
   "dependencies": {
+    "color": "^0.6.0",
     "colornames": "0.0.x",
     "env-variable": "0.0.x",
     "kuler": "0.0.x",
