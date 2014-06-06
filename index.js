@@ -9,15 +9,6 @@ var human = require('pretty-hrtime')
   , util = require('util');
 
 /**
- * All the different name spaces that are currently using this module.
- *
- * @type {Array}
- * @private
- */
-var namespaces = []
-  , max;
-
-/**
  * Check if the terminal we're using allows the use of colors.
  *
  * @type {Boolean}
@@ -81,15 +72,6 @@ function factory(name, options) {
   if (!Array.isArray(options.stream)) options.stream = [options.stream];
 
   //
-  // Add the namespace an re-calculate the max-length of the namespace so we can
-  // have a consistent indentation.
-  //
-  namespaces.push(name);
-  max = Math.max.apply(Math, namespaces.map(function map(namespace) {
-    return namespace.toString().length;
-  }));
-
-  //
   // The actual debug function which does the logging magic.
   //
   return function debug(line) {
@@ -101,11 +83,6 @@ function factory(name, options) {
     if (line instanceof Error) line = line.stack || line.message || line;
 
     line = [
-      //
-      // Add extra padding so all log messages start at the same line.
-      //
-      (new Array(max + 1 - name.length)).join(' '),
-
       //
       // Add the colorized namespace.
       //
