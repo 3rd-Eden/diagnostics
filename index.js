@@ -1,7 +1,6 @@
 'use strict';
 
-var human = require('pretty-hrtime')
-  , env = require('env-variable')
+var env = require('env-variable')
   , Stream = require('stream')
   , colorjs = require('color')
   , hex = require('text-hex')
@@ -75,8 +74,6 @@ function factory(name, options) {
   // The actual debug function which does the logging magic.
   //
   return function debug(line) {
-    debug.prev = debug.prev || process.hrtime();
-
     //
     // Better formatting for error instances.
     //
@@ -87,13 +84,6 @@ function factory(name, options) {
       // Add the colorized namespace.
       //
       options.ansi,
-
-      //
-      // Add the duration since the last call.
-      //
-      ' ' + human(process.hrtime(debug.prev), {
-        precise: !!options.precise
-      }),
 
       //
       // The total time we took to execute the next debug statement.
@@ -112,11 +102,6 @@ function factory(name, options) {
     options.stream.forEach(function each(stream) {
       stream.write(line);
     });
-
-    //
-    // Update the previous call with the current time.
-    //
-    debug.prev = process.hrtime();
   };
 }
 

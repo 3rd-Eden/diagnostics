@@ -33,11 +33,10 @@
     "pre-commit": "0.0.x"
   },
   "dependencies": {
-    "color": "^0.6.0",
+    "color": "0.6.x",
     "colornames": "0.0.x",
     "env-variable": "0.0.x",
     "kuler": "0.0.x",
-    "pretty-hrtime": "0.2.x",
     "text-hex": "0.0.x"
   }
 }
