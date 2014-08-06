@@ -6,6 +6,7 @@ describe('diagnostics', function () {
 
   beforeEach(function () {
     process.env.DEBUG = '';
+    process.env.DIAGNOSTICS = '';
   });
 
   it('is exposed as function', function () {
@@ -51,6 +52,15 @@ describe('diagnostics', function () {
       assume(debug.enabled('bigpipe')).to.be.true();
       assume(debug.enabled('sack')).to.be.true();
       assume(debug.enabled('primus')).to.be.false();
+    });
+
+    it('supports multiple ranges', function () {
+      process.env.DEBUG = 'bigpipe*,primus*';
+
+      assume(debug.enabled('bigpipe:')).to.be.true();
+      assume(debug.enabled('bigpipes')).to.be.true();
+      assume(debug.enabled('primus:')).to.be.true();
+      assume(debug.enabled('primush')).to.be.true();
       assume(debug.enabled('unknown')).to.be.false();
     });
   });

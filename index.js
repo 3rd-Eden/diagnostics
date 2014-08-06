@@ -118,7 +118,7 @@ function enabled(name) {
 
   if (!variable) return false;
 
-  return variable.split(/[\s,]+/).every(function checks(check) {
+  return variable.split(/[\s,]+/).some(function checks(check) {
     check = check.replace('*', '.*?');
 
     if ('-' === check.charAt(0)) {
