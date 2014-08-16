@@ -63,7 +63,7 @@ To set multiple streams as the default streams or supply an array for the logger
 it self:
 
 ```js
-var log = require('diagnostics', { stream: [
+var log = require('diagnostics')('example', { stream: [
   stream1,
   stream2
 ]});
