@@ -114,7 +114,7 @@ function factory(name, options) {
  */
 function enabled(name) {
   var envy = env()
-    , variable = envy.debug || envy.diagnostics || '';
+    , variable = envy.diagnostics || envy.debug || '';
 
   if (!variable) return false;
 
