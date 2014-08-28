@@ -1,5 +1,7 @@
 # Diagnostics
 
+[![Build Status](https://travis-ci.org/3rd-Eden/diagnostics.svg?branch=master)](https://travis-ci.org/3rd-Eden/diagnostics)
+
 Diagnostics provides a set of tools that is designed to help you with debugging
 your Node.js and front-end applications. 
 
