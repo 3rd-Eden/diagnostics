@@ -1,6 +1,6 @@
 {
   "name": "diagnostics",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "index.js",
   "scripts": {
@@ -29,11 +29,11 @@
   "homepage": "https://github.com/3rd-Eden/diagnostics",
   "devDependencies": {
     "assume": "0.0.x",
-    "mocha": "1.19.x",
+    "mocha": "1.21.x",
     "pre-commit": "0.0.x"
   },
   "dependencies": {
-    "color": "0.6.x",
+    "color": "0.7.x",
     "colornames": "0.0.x",
     "env-variable": "0.0.x",
     "kuler": "0.0.x",
