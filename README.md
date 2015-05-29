@@ -1,6 +1,6 @@
 # Diagnostics
 
-[![Build Status](https://travis-ci.org/3rd-Eden/diagnostics.svg?branch=master)](https://travis-ci.org/3rd-Eden/diagnostics)
+[![Build Status](https://travis-ci.org/bigpipe/diagnostics.svg?branch=master)](https://travis-ci.org/bigpipe/diagnostics)
 
 Diagnostics is a small debugging library which allows you to output your debug
 logs by setting an environment variable. The library works for server-side and
