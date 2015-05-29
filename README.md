@@ -35,16 +35,9 @@ The first argument in the function is the namespace of you log function. All log
 message will be prefixed with. But we also allow a second argument. This can be
 used to configure the logger. The following options can be configured:
 
-- `color`: The color for the namespace, this can be a hex (#FFF) color string or
-  the name of a color. If no color is provided we will generate consistently
-  hashed color from the given namespace and use that instead.
-- `color**s**`: Forcefully enable or disable the use of colors in the log
-  output. If no `colors` boolean is provided we will determine if it's a proper
-  tty and show colors.
+- `colors`: Enable or disable colors. Defaults to true if your stdout is a tty.
 - `stream`: The stream instance we should write our logs to. We default to
   `process.stdout` (unless you change the default using the `.to` method).
-- `precise`: By default our log timing is rounded up to the nearest number. If
-  you need more precise timing you can set this option to true.
 
 #### Multiple streams
 
