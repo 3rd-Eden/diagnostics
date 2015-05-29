@@ -3,12 +3,13 @@
   "version": "0.0.4",
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "index.js",
+  "browser": "./browser.js",
   "scripts": {
     "test": "mocha --reporter spec --ui bdd test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/3rd-Eden/diagnostics.git"
+    "url": "git://github.com/bigpipe/diagnostics.git"
   },
   "keywords": [
     "debug",
@@ -24,9 +25,9 @@
   "author": "Arnout Kazemier",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/3rd-Eden/diagnostics/issues"
+    "url": "https://github.com/bigpipe/diagnostics/issues"
   },
-  "homepage": "https://github.com/3rd-Eden/diagnostics",
+  "homepage": "https://github.com/bigpipe/diagnostics",
   "devDependencies": {
     "assume": "1.2.x",
     "mocha": "2.2.x",
