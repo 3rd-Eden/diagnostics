@@ -102,6 +102,9 @@ as you usually want your front-end code to be as small as possible.
 
 #### Multiple streams
 
+> Please note that this feature is server-side only as in the browser we can only
+> output to the console
+
 The beauty of this logger is that it allows a custom stream where you can write
 the data to. So you can just log it all to a separate server, database and what
 not. But we don't just allow one stream we allow multiple streams so you might
