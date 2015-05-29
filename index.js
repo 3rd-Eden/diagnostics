@@ -28,7 +28,6 @@ var stream = process.stdout;
  *
  * - colors: Force the use of colors or forcefully disable them. If this option
  *   is not supplied the colors will be based on your terminal.
- *
  * - stream: The Stream instance we should write our logs to, defaults to
  *   process.stdout but can be anything you like.
  *
