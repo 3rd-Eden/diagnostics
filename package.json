@@ -1,6 +1,6 @@
 {
   "name": "diagnostics",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "index.js",
   "browser": "./browser.js",
@@ -37,5 +37,10 @@
     "colorspace": "1.0.x",
     "enabled": "1.0.x",
     "kuler": "0.0.x"
-  }
+  },
+  "contributors": [
+    "Martijn Swaagman (https://github.com/swaagie)",
+    "Jarrett Cruger (https://github.com/jcrugzz)",
+    "Sevastos (https://github.com/sevastos)"
+  ]
 }
