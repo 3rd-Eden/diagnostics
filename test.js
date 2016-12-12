@@ -13,8 +13,26 @@ describe('diagnostics', function () {
     assume(debug).to.be.a('function');
   });
 
-  describe('.to', function (next) {
-    it('globally overrides the stream', function () {
+  it('stringifies objects', function (next) {
+    process.env.DEBUG = 'test';
+
+    debug.to({
+      write: function write(line) {
+        assume(line).to.contain('test');
+        assume(line).to.contain('I will be readable { json: 1 }');
+
+        debug.to(process.stdout);
+        next();
+      }
+    });
+
+    debug('test')('I will be readable', { json: 1 });
+  });
+
+  describe('.to', function () {
+    it('globally overrides the stream', function (next) {
+      process.env.DEBUG = 'foo';
+
       debug.to({
         write: function write(line) {
           assume(line).to.contain('foo');
