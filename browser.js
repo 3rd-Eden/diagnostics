@@ -1,5 +1,6 @@
 'use strict';
 
+var colorspace = require('colorspace');
 var enabled = require('enabled');
 
 /**
@@ -9,11 +10,22 @@ var enabled = require('enabled');
  *
  * @param {String} name Namespace of the diagnostics instance.
  * @returns {Function} The logger.
- * @api public
+ * @public
  */
 module.exports = function factory(name) {
   if (!enabled(name)) return function diagnopes() {};
 
+  //
+  // The color for the namespace.
+  //
+  var color = colorspace(name);
+
+  /**
+   * The actual function that does the logging.
+   *
+   * @param {...args} args The data that needs to be logged.
+   * @public
+   */
   return function diagnostics() {
     var args = Array.prototype.slice.call(arguments, 0);
 
@@ -23,7 +35,14 @@ module.exports = function factory(name) {
     // So in order to prepend our namespace we need to override and prefix the
     // first argument.
     //
-    args[0] = name +': '+ args[0];
+    args[0] = '%c'+ name +'%c: '+ args[0];
+
+    //
+    // Now we want to inject the colors to the arguments, so they get colored.
+    // The last empty argh here is to remove the color again so the log message
+    // is not colored.
+    //
+    args.splice(1, 0, 'color:'+ color, '');
 
     //
     // So yea. IE8 doesn't have an apply so we need a work around to puke the
