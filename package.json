@@ -5,6 +5,7 @@
   "main": "index.js",
   "browser": "./browser.js",
   "scripts": {
+    "build": "mkdir -p dist && browserify browser.js -s diagnostics -p deumdify | derequire > dist/diagnostics.js",
     "test": "mocha test.js"
   },
   "repository": {
@@ -30,6 +31,9 @@
   "homepage": "https://github.com/bigpipe/diagnostics",
   "devDependencies": {
     "assume": "^2.0.1",
+    "browserify": "^16.2.2",
+    "derequire": "^2.0.6",
+    "deumdify": "^1.2.7",
     "mocha": "^5.2.0",
     "pre-commit": "^1.2.2"
   },
