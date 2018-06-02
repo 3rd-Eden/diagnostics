@@ -61,23 +61,10 @@ function factory(name, options) {
     //
     if (line instanceof Error) line = line.stack || line.message || line;
 
-    line = [
-      //
-      // Add the colorized namespace.
-      //
-      options.ansi,
-
-      //
-      // The total time we took to execute the next debug statement.
-      //
-      ' ',
-      line
-    ].join('');
-
     //
     // Use util.format so we can follow the same API as console.log.
     //
-    line = util.format.apply(this, [line].concat(
+    line = util.format.apply(this, [options.ansi +' '+ line].concat(
         Array.prototype.slice.call(arguments, 1)
     )) + '\n';
 
