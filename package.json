@@ -36,7 +36,7 @@
   "dependencies": {
     "colorspace": "1.0.x",
     "enabled": "1.0.x",
-    "kuler": "0.0.x"
+    "kuler": "~1.0.0"
   },
   "contributors": [
     "Martijn Swaagman (https://github.com/swaagie)",
