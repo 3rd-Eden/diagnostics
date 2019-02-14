@@ -20,10 +20,8 @@ var diagnostics = create(function dev(namespace, options) {
 //
 // Configure the logger for the given environment.
 //
-diagnostics.modify(require('../modifiers/namespace'));
-diagnostics.use(require('../adapters/localstorage'));
-diagnostics.use(require('../adapters/window.name'));
-diagnostics.use(require('../adapters/hash'));
+diagnostics.modify(require('../modifiers/namespace-ansi'));
+diagnostics.use(require('../adapters/process.env'));
 diagnostics.set(require('../logger/console'));
 
 //

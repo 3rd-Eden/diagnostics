@@ -21,9 +21,7 @@ var diagnostics = create(function dev(namespace, options) {
 // Configure the logger for the given environment.
 //
 diagnostics.modify(require('../modifiers/namespace'));
-diagnostics.use(require('../adapters/localstorage'));
-diagnostics.use(require('../adapters/window.name'));
-diagnostics.use(require('../adapters/hash'));
+diagnostics.use(require('../adapters/asyncstorage'));
 diagnostics.set(require('../logger/console'));
 
 //

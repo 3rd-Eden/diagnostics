@@ -88,7 +88,7 @@ function write() {
 /**
  * Process the message with the modifiers.
  *
- * @param {String} message The message to be transformed by modifers.
+ * @param {Mixed} message The message to be transformed by modifers.
  * @returns {String} Transformed message.
  * @public
  */
@@ -101,18 +101,52 @@ function process(message) {
 }
 
 /**
- * Create a new `diagnostics` instance.
+ * Nope, we're not allowed to write messages.
+ *
+ * @returns {Boolean} false
+ * @public
+ */
+function nope() {
+  return false;
+}
+
+/**
+ * Yep, we're allowed to write debug messages.
+ *
+ * @param {Object} options The options for the process.
+ * @returns {Function} The function that does the logging.
+ * @public
+ */
+function yep(options) {
+  /**
+   * The function that receives the actual debug information.
+   *
+   * @returns {Boolean} indication that we're logging.
+   * @public
+   */
+  return function diagnostics() {
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    write.apply(write, process(args, options));
+    return true;
+  };
+}
+
+/**
+ * Simple helper function to introduce various of helper methods to our given
+ * diagnostics function.
  *
  * @param {Function} diagnostics The diagnostics function.
  * @returns {Function} diagnostics
  * @public
  */
 module.exports = function create(diagnostics) {
-  diagnostics.nope = function diagnopes() {};
   diagnostics.enabled = enabled;
   diagnostics.process = process;
   diagnostics.modify = modify;
   diagnostics.write = write;
+  diagnostics.nope = nope;
+  diagnostics.yep = yep;
   diagnostics.set = set;
   diagnostics.use = use;
 
