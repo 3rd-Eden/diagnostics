@@ -30,7 +30,7 @@
   "homepage": "https://github.com/bigpipe/diagnostics",
   "devDependencies": {
     "assume": "2.1.x",
-    "mocha": "5.2.x",
+    "mocha": "~6.0.0",
     "pre-commit": "1.2.x"
   },
   "dependencies": {
