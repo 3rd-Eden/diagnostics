@@ -10,10 +10,14 @@ var create = require('../diagnostics');
  */
 var diagnostics = create(function dev(namespace, options) {
   options = options || {};
-
-  if (!dev.enabled() && !(options.force || dev.force)) return dev.nope;
-
   options.namespace = namespace;
+  options.prod = false;
+  options.dev = true;
+
+  if (!dev.enabled(namespace) && !(options.force || dev.force)) {
+    return dev.nope(options);
+  }
+
   return dev.yep(options);
 });
 
@@ -22,7 +26,6 @@ var diagnostics = create(function dev(namespace, options) {
 //
 diagnostics.modify(require('../modifiers/namespace'));
 diagnostics.use(require('../adapters/localstorage'));
-diagnostics.use(require('../adapters/window.name'));
 diagnostics.use(require('../adapters/hash'));
 diagnostics.set(require('../logger/console'));
 

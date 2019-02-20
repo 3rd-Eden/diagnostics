@@ -8,8 +8,14 @@ var colorspace = require('colorspace');
  * @returns {Array} Altered messages array.
  * @public
  */
-module.exports = function colorNamespace(messages, options) {
+module.exports = function colorNamespace(args, options) {
   var namespace = options.namespace;
+
+  if (options.colors === false) {
+    args[0] = namespace +': '+ args[0];
+    return args;
+  }
+
   var color = colorspace(namespace);
 
   //
@@ -19,8 +25,8 @@ module.exports = function colorNamespace(messages, options) {
   // we need to inject our CSS string as second messages argument so it
   // gets picked up correctly.
   //
-  messages[0] = '%c'+ namespace +'%c' + messages[0];
-  args.splice(1, 0, 'color:'+ color, '');
+  args[0] = '%c'+ namespace +':%c '+ args[0];
+  args.splice(1, 0, 'color:'+ color);
 
-  return messages;
+  return args;
 };

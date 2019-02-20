@@ -49,15 +49,39 @@ function set(custom) {
  * Check if the namespace is allowed by any of our adapters.
  *
  * @param {String} namespace The namespace that needs to be enabled
- * @returns {Boolean} Indication if the namespace is enabled by our adapters.
+ * @returns {Boolean|Promise} Indication if the namespace is enabled by our adapters.
  * @public
  */
 function enabled(namespace) {
+  var async = [];
+
   for (var i = 0; i < adapters.length; i++) {
+    if (Object.prototype.toString.call(adapters[i]) === '[object AsyncFunction]') {
+      async.push(adapters[i]);
+      continue;
+    }
+
     if (adapters[i](namespace)) return true;
   }
 
-  return false;
+
+  if (!async.length) return false;
+
+  //
+  // Now that we know that we Async functions, we know we run in an ES6
+  // environment and can use all the API's that they offer, in this case
+  // we want to return a Promise so that we can `await` in React-Native
+  // for an async adapter.
+  //
+  return new Promise(function pinky(resolve) {
+    Promise.all(
+      async.map(function prebind(fn) {
+        return fn(namespace);
+      })
+    ).then(function resolved(values) {
+      resolve(values.some(Boolean));
+    });
+  });
 }
 
 /**
@@ -101,13 +125,40 @@ function process(message) {
 }
 
 /**
+ * Introduce options to the logger function.
+ *
+ * @param {Function} fn Calback function.
+ * @param {Object} options Properties to introduce on fn.
+ * @returns {Function} The passed function
+ * @public
+ */
+function introduce(fn, options) {
+  var has = Object.prototype.hasOwnProperty;
+
+  for (var key in options) {
+    if (has.call(options, key)) {
+      fn[key] = options[key];
+    }
+  }
+
+  return fn;
+}
+
+/**
  * Nope, we're not allowed to write messages.
  *
  * @returns {Boolean} false
  * @public
  */
-function nope() {
-  return false;
+function nope(options) {
+  options.enabled = false;
+  options.modify = modify;
+  options.set = set;
+  options.use = use;
+
+  return introduce(function diagnopes() {
+    return false;
+  }, options);
 }
 
 /**
@@ -124,12 +175,19 @@ function yep(options) {
    * @returns {Boolean} indication that we're logging.
    * @public
    */
-  return function diagnostics() {
+  function diagnostics() {
     var args = Array.prototype.slice.call(arguments, 0);
 
-    write.apply(write, process(args, options));
+    write.call(write, options, process(args, options));
     return true;
-  };
+  }
+
+  options.enabled = true;
+  options.modify = modify;
+  options.set = set;
+  options.use = use;
+
+  return introduce(diagnostics, options);
 }
 
 /**
@@ -141,6 +199,7 @@ function yep(options) {
  * @public
  */
 module.exports = function create(diagnostics) {
+  diagnostics.introduce = introduce;
   diagnostics.enabled = enabled;
   diagnostics.process = process;
   diagnostics.modify = modify;

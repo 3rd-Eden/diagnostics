@@ -1,4 +1,5 @@
 var create = require('../diagnostics');
+var tty = require('tty').isatty(1);
 
 /**
  * Create a new diagnostics logger.
@@ -10,10 +11,15 @@ var create = require('../diagnostics');
  */
 var diagnostics = create(function dev(namespace, options) {
   options = options || {};
-
-  if (!dev.enabled() && !(options.force || dev.force)) return dev.nope;
-
+  options.colors = 'colors' in options ? options.colors : tty;
   options.namespace = namespace;
+  options.prod = false;
+  options.dev = true;
+
+  if (!dev.enabled(namespace) && !(options.force || dev.force)) {
+    return dev.nope(options);
+  }
+  
   return dev.yep(options);
 });
 

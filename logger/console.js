@@ -5,13 +5,15 @@
  * `console.log` API doesn't have an `apply`, so we need to use the Function's
  * apply functionality to apply the arguments.
  *
+ * @param {Object} meta Options of the logger.
+ * @param {Array} messages The actuall message that needs to be logged.
  * @public
  */
-module.exports = function () {
+module.exports = function (meta, messages) {
   //
   // So yea. IE8 doesn't have an apply so we need a work around to puke the
   // arguments in place.
   //
-  try { Function.prototype.apply.call(console.log, console, arguments); }
+  try { Function.prototype.apply.call(console.log, console, messages); }
   catch (e) {}
 }

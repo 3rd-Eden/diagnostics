@@ -6,6 +6,6 @@ var adapter = require('./');
  * @type {Function}
  * @public
  */
-module.exports = adapter(function hash() {
-  return /(debug|diagnostics)=([^&]+)/i.exec(window.location.hash)[2];
+module.exports = adapter(function processenv() {
+  return process.env.DEBUG || process.env.DIAGNOSTICS;
 });

@@ -10,10 +10,11 @@ var create = require('../diagnostics');
  */
 var diagnostics = create(function prod(namespace, options) {
   options = options || {};
-
-  if (!(options.force || prod.force)) return dev.nope;
-
   options.namespace = namespace;
+  options.prod = true;
+  options.dev = false;
+
+  if (!(options.force || prod.force)) return prod.nope(options);
   return prod.yep(options);
 });
 
