@@ -79,5 +79,8 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Stuff that should not be committed
+# Stuff that should not end-up in npm
+test
 dist
+.travis.yml
+example.js

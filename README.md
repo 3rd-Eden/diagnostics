@@ -1,135 +1,228 @@
-# Diagnostics
+# `diagnostics`
 
-[![Build Status](https://travis-ci.org/bigpipe/diagnostics.svg?branch=master)](https://travis-ci.org/bigpipe/diagnostics)
+Diagnostics is an extremely small but powerful debug logger modeled after the
+Node.js core debugging technique.
 
-Diagnostics is a small debugging library which allows you to output your debug
-logs by setting an environment variable. The library works for server-side and
-client-size applications so it's great for writing isomorphic JavaScript.
-
-The debug output can be triggered using environment variables on the server and
-using localStorage, hashtags and window.name on the browser. If the debug output
-is not enabled this module will result in an empty function causing the
-JavaScript compiler engines to remove it completely from your code so there is
-absolutely no performance overhead or excuses left to not use logging in your
-code!
+- Allows debugging in multiple JavaScript environments such as Node.js, browsers
+  and React-Native.
+- Separated development and production builds to minimize impact on your
+  application when bundled.
+- Allows for customization of logger, messages, and much more.
 
 ## Installation
 
-The module is released in the public npm registry and can easily be installed by
-running.
+The module is released in the public npm registry and can be installed by
+running:
 
 ```
 npm install --save diagnostics
 ```
 
-For client-side/front-end facing application we assume that you're using
-`browserify` as your build tool as the client code is bundled as the
-`browser.js` file in the root of this repository.
-
 ## Usage
 
-When you require the module it returns a function that expect a name or prefix
-for the debug messages. This prefix is what you use to enable specific debug
-messages.
+- [Introduction](#introduction)
+  - [.enabled](#enabled)
+  - [.namespace](#namespace)
+  - [.namespace](#namespace)
+  - [.dev/prod](#dev-prod)
+- [Adapters](#adapters)
+  - [process.env](#process-env)
+  - [hash](#hash)
+  - [localStorage](#localStorage)
+  - [AsyncStorage](#asyncstorage)
+- [Modifiers](#modifiers)
+  - [namespace](#namespace)
+- [Logger](#logger)
 
-The exported function of the module accepts 2 arguments:
+### Introduction
 
-1. `name` The namespace of the debug logger.
-2. `options` These options can only be applied to the server, not client code:
-  - `colors`: Enable or disable colors. Defaults to true if your stdout is a tty.
-  - `stream`: The stream instance we should write our logs to. We default to
-    `process.stdout` (unless you change the default using the `.to` method).
-
-```js
-var debug = require('diagnostics')('foo');
-debug('hello world %d', 12);
-```
-
-In the example above you can see that we've created a new diagnostics function
-called debug. It's name is set to `foo`. So when we run this in Node.js using:
-
-```
-node index.js
-```
-
-We will see nothing in the console as the log messages are disabled by default.
-But when set the `DEBUG` or `DIAGNOSTICS` environment variables to the name of
-the debug function it will show up:
-
-```
-DIAGNOSTICS=foo node index.js
-
-hello world 12
-```
-
-You can enable or disable specific diagnostic instances in the ENV variables by
-separating them using a space or comma:
-
-```
-DEBUG=foo,-bar,primus:*
-```
-
-In the example above you also see an example of a wild card `*`. This ensures
-that anything after it or before it will be allowed.
-
-To make it easier to see where the log messages are coming from they are
-colored automatically based on the namespace you provide them. The deeper the
-namespace, the lighter name will be toned as seen in the following output.
-
-![output](output.PNG)
-
-## Browser
-
-The usage for browser is exactly the same as for node. You require the
-`diagnostics` method and supply it with a name argument. The big difference is
-that no longer can use environment variables as these only work on the server.
-So to go around that you can use:
-
-- **hashtag** The hashtag will be parsed using query string decoding. So if you
-  have an hash `#debug=foo` it will trigger all `foo` lines to be dumped to your
-  browser console.
-- **localStorage** We will search for a query string in either the `env` or
-  `debug` key of `localStorage`. We again assume that the value has query string
-  encode value which contains either `debug` or `diagnostics`.
-  `localStorage.env = 'diagnostics=foo'`.
-- **window.name** As `localStorage` is not available in all browsers, we provide
-  a fallback to `window.name` which can contain the same values as the
-  `localStorage`'s env/debug keys.
-
-Unlike the server, the output of the browser is not colored. The reason for this
-that it would take a considerable amount of code. Which is not worth the benefit
-as you usually want your front-end code to be as small as possible.
-
-#### Multiple streams
-
-> Please note that this feature is server-side only as in the browser we can only
-> output to the console
-
-The beauty of this logger is that it allows a custom stream where you can write
-the data to. So you can just log it all to a separate server, database and what
-not. But we don't just allow one stream we allow multiple streams so you might
-want to log to disk AND just output it in your terminal. The only thing you need
-to do is either use:
+To create a new logger simply `require` the `diagnostics` module and call
+the returned function the namespace under which the logs should be enabled.
+Generally you use the name of the module or application that your developing
+as first (root) namespace.
 
 ```js
-require('diagnostics').to([
-  stream1,
-  stream2
-]);
+const debug = require('diagnostics')('foo:bar:baz');
+const debug = require('diagnostics')('foo:bar:baz', { options });
+
+debug('this is a log message %s', 'that will only show up when enabled');
+debug('that is pretty neat', { log: 'more', data: 1337 });
 ```
 
-To set multiple streams as the default streams or supply an array for the logger
-it self:
+Please note that the returned logger is fully configured out of the box, you
+do not need to use any of the adapters/modifiers your self, they are there
+for when you want more advanced control over the process.
+
+The returned logger exposes some addition properties that can be used used in
+your application or library.
+
+### enabled
+
+The returned logger will have a `.enabled` property assigned to it. This boolean
+can be used to check if the logger was enabled:
 
 ```js
-var debug = require('diagnostics')('example', { stream: [
-  stream1,
-  stream2
-]});
+const debug = require('diagnostics')('foo:bar');
 
-debug('foo');
+if (debug.enabled) {
+  //
+  // Do something special
+  //
+}
 ```
+
+### namespace
+
+This is the namespace that you originally provided to the function.
+
+```js
+const debug = require('diagnostics')('foo:bar');
+
+console.log(debug.namespace); // foo:bar
+```
+
+### dev/prod
+
+There are different builds available of `diagnostics`, when you create a
+production build of your application using `NODE_ENV=production` you will be
+given an optimized, smaller build of `diagnostics` to reduce your bundle size.
+The `dev` and `prod` booleans on the returned logger indicate if you have a
+production or development version of the logger.
+
+```js
+const debug = require('diagnostics')('foo:bar');
+
+if (debug.prod) {
+  // do stuff
+}
+```
+
+### Modifiers
+
+Modifiers allows you to programmatically alter the messages that are being
+logged. Modifiers are applied to **all** diagnostic instances. To add a new
+modifier you call the `modify` method of one the returned loggers. It receives
+the following arguments:
+
+1. `message`, Array, the log message.
+2. `options`, Object, the options that were passed into the logger when it was
+   initially created.
+
+```js
+const debug = require('diagnostics')('example:modifiers');
+
+debug.modify(function (message, options) {
+  return messages;
+});
+```
+
+The modifiers are only enabled for `development`.
+
+#### namespace
+
+This modifier is enabled for all debug instances and prefixes the messages
+with the name of namespace under which it is logged. The namespace is colored
+using the `colorspace` module which groups similar namespaces under the same
+colorspace. You can have multiple namespaces for the debuggers where each
+namespace should be separated by a `:`
+
+```
+foo
+foo:bar
+foo:bar:baz
+```
+
+For console based output the `namespace-ansi` is used.
+
+### Loggers
+
+By default it will log all messages to `console.log` in when the logger is
+enabled using the debug flag that is set using one of the adapters.
+
+You can override the default logger by assigning your own using the `set`
+method. This method accepts a function as first argument which will be called
+every time a message needs to be logged.
+
+```js
+const debug = require('diagnostics')('foo:more:namespaces');
+
+debug.use(function logger(meta, args) {
+  console.log(meta);
+  console.debug(...args);
+});
+```
+
+The assigned logger will receive 2 arguments:
+
+1. `meta` An object with all the options that was provided to the original
+   logger that wants to write the log message as well as properties of the
+   debugger such as `prod`, `dev`, `namespace`, `enabled`.
+2. `args` An array of the log messages that needs to be written.
+
+### Adapters
+
+Adapters allows `diagnostics` to pull the `DEBUG` and `DIAGNOSTICS` environment
+variables from different sources. Not every JavaScript environment has a
+`process.env` that we can leverage. Adapters allows us to have different
+adapters for different environments. It means you can write your own custom
+adapter if needed as well.
+
+The `adapter` function should be passed a function as argument, this function
+will receive the `namespace` of a logger as argument and it should return a
+boolean that indicates if that logger should be enabled or not.
+
+```js
+const debug = require('diagnostics')('example:namespace');
+
+debug.adapter(require('diagnostics/adapters/localstorage'));
+```
+
+The modifiers are only enabled for `development`. The following adapters are
+available are available:
+
+#### process.env
+
+This adapter is enabled for `node.js`.
+
+Uses the `DEBUG` or `DIAGNOSTICS` (both are recognized) environment variables to
+pass in debug flag:
+
+**UNIX/Linux/Mac**
+```
+DEBUG=foo* node index.js
+```
+
+Using environment variables on Windows is a bit different, and also depends on
+toolchain you are using:
+
+**Windows**
+```
+set DEBUG=foo* & node index.js
+```
+
+**Powershell**
+```
+$env:DEBUG='foo*';node index.js
+```
+
+#### hash
+
+This adapter is enabled for `browsers`.
+
+This adapter uses the `window.location.hash` of as source for the environment
+variables. It assumes that hash is formatted using the same syntax as query
+strings:
+
+```
+http://example.com/foo/bar#debug=foo*
+```
+
+It triggers on both the `debug=` and `diagnostics=` names.
+
+#### localStorage
+
+This adapter is enabled for `browsers`.
 
 ## License
 
-[MIT](LICENSE.md)
+MIT

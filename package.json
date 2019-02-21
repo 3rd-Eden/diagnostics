@@ -2,14 +2,26 @@
   "name": "diagnostics",
   "version": "1.1.1",
   "description": "Tools for debugging your node.js modules and event loop",
-  "main": "index.js",
-  "browser": "./browser.js",
+  "main": "./node",
+  "browser": "./browser",
+  "react-native": "./react-native",
   "scripts": {
-    "test": "mocha --reporter spec --ui bdd test.js"
+    "test:basic": "mocha --require test/mock.js test/*.test.js",
+    "test:node": "mocha --require test/mock test/node.js",
+    "test:browser": "mocha --require test/mock test/browser.js",
+    "test:react-native": "mocha --require test/mock test/react-native.js",
+    "test:runner": "npm run test:basic && npm run test:node && npm run test:browser && npm run test:react-native",
+    "webpack:node:prod": "webpack --mode=production node/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "webpack:node:dev": "webpack --mode=development node/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "webpack:browser:prod": "webpack --mode=production browser/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "webpack:browser:dev": "webpack --mode=development browser/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "webpack:react-native:prod": "webpack --mode=production react-native/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "webpack:react-native:dev": "webpack --mode=development react-native/index.js -o /dev/null --json | webpack-bundle-size-analyzer",
+    "test": "nyc --reporter=text --reporter=lcov npm run test:runner"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bigpipe/diagnostics.git"
+    "url": "git://github.com/3rd-Eden/diagnostics.git"
   },
   "keywords": [
     "debug",
@@ -25,18 +37,27 @@
   "author": "Arnout Kazemier",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bigpipe/diagnostics/issues"
+    "url": "https://github.com/3rd-Eden/diagnostics/issues"
   },
-  "homepage": "https://github.com/bigpipe/diagnostics",
+  "homepage": "https://github.com/3rd-Eden/diagnostics",
   "devDependencies": {
     "assume": "2.1.x",
+    "asyncstorageapi": "^1.0.2",
     "mocha": "5.2.x",
-    "pre-commit": "1.2.x"
+    "nyc": "^13.3.0",
+    "objstorage": "^1.0.0",
+    "pre-commit": "1.2.x",
+    "react-native": "^0.58.5",
+    "require-poisoning": "^2.0.0",
+    "webpack": "^4.29.5",
+    "webpack-bundle-size-analyzer": "^3.0.0",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "colorspace": "1.1.x",
-    "enabled": "1.0.x",
-    "kuler": "1.0.x"
+    "enabled": "^2.0.0",
+    "kuler": "1.0.x",
+    "storage-engine": "^2.0.1"
   },
   "contributors": [
     "Martijn Swaagman (https://github.com/swaagie)",
