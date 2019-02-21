@@ -21,10 +21,10 @@ npm install --save diagnostics
 ## Usage
 
 - [Introduction](#introduction)
-  - [enabled](#enabled)
-  - [namespace](#namespace)
-  - [namespace](#namespace)
-  - [dev/prod](#dev-prod)
+  - [.enabled](#enabled)
+  - [.namespace](#namespace)
+  - [.namespace](#namespace)
+  - [.dev/prod](#dev-prod)
 - [Adapters](#adapters)
   - [process.env](#process-env)
   - [hash](#hash)
@@ -44,6 +44,9 @@ as first (root) namespace.
 ```js
 const debug = require('diagnostics')('foo:bar:baz');
 const debug = require('diagnostics')('foo:bar:baz', { options });
+
+debug('this is a log message %s', 'that will only show up when enabled');
+debug('that is pretty neat', { log: 'more', data: 1337 });
 ```
 
 Please note that the returned logger is fully configured out of the box, you
