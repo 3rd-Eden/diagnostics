@@ -1,6 +1,6 @@
 {
   "name": "diagnostics",
-  "version": "1.1.1",
+  "version": "2.0.0-alpha",
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "./node",
   "browser": "./browser",
