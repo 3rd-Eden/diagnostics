@@ -24,7 +24,8 @@ describe('diagnostics(modifiers)', function () {
 
       assume(data[0]).equals('%clol hello:%c foo');
       assume(data[1]).contains('color:#');
-      assume(data[2]).equals('bar');
+      assume(data[2]).equals('color:inherit');
+      assume(data[3]).equals('bar');
     });
 
     it('does not render colors if `colors===false`', function () {

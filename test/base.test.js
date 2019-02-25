@@ -89,11 +89,14 @@ describe('diagnostics(base)', function () {
           });
         }
 
-        diagnostics.use(async function (namespace) {
+        async function example(namespace) {
           await timeout(50);
 
           return namespace === 'async-namespace';
-        });
+        }
+
+        example.async = true;
+        diagnostics.use(example);
 
         assume(await diagnostics.enabled('ping pong')).is.false();
         assume(await diagnostics.enabled('async-namespace')).is.true();
