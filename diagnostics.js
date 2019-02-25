@@ -56,14 +56,13 @@ function enabled(namespace) {
   var async = [];
 
   for (var i = 0; i < adapters.length; i++) {
-    if (Object.prototype.toString.call(adapters[i]) === '[object AsyncFunction]') {
+    if (adapters[i].async) {
       async.push(adapters[i]);
       continue;
     }
 
     if (adapters[i](namespace)) return true;
   }
-
 
   if (!async.length) return false;
 
