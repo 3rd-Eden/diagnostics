@@ -31,13 +31,16 @@ npm install --save diagnostics
   - [.enabled](#enabled)
   - [.namespace](#namespace)
   - [.dev/prod](#devprod)
+  - [set](#set)
+  - [modify](#modify)
+  - [use](#use)
+- [Modifiers](#modifiers)
+  - [namespace](#namespace-1)
 - [Adapters](#adapters)
   - [process.env](#process-env)
   - [hash](#hash)
   - [localStorage](#localstorage)
   - [AsyncStorage](#asyncstorage)
-- [Modifiers](#modifiers)
-  - [namespace](#namespace)
 - [Loggers](#loggers)
 
 ### Introduction
