@@ -11,6 +11,8 @@ enabled without changing a line of code, using flags.
   application when bundled.
 - Allows for customization of logger, messages, and much more.
 
+![Output Example](example.png)
+
 ## Installation
 
 The module is released in the public npm registry and can be installed by
