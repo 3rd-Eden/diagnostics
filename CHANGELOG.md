@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 2.0.0
+
+- Documentation improvements.
+- Fixed a issue where async adapters were incorrectly detected.
+- Correctly inherit colors after applying colors the browser's console.
+
 ### 2.0.0-alpha
 
 - Complete rewrite of all internals, now comes with separate builds for `browser`
