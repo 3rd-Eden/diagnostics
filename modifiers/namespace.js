@@ -26,7 +26,7 @@ module.exports = function colorNamespace(args, options) {
   // gets picked up correctly.
   //
   args[0] = '%c'+ namespace +':%c '+ args[0];
-  args.splice(1, 0, 'color:'+ color);
+  args.splice(1, 0, 'color:'+ color, 'color:inherit');
 
   return args;
 };
