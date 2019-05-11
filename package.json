@@ -55,9 +55,9 @@
   },
   "dependencies": {
     "colorspace": "1.1.x",
-    "enabled": "^2.0.0",
+    "enabled": "2.0.x",
     "kuler": "1.0.x",
-    "storage-engine": "^2.0.1"
+    "storage-engine": "3.0.x"
   },
   "contributors": [
     "Martijn Swaagman (https://github.com/swaagie)",
