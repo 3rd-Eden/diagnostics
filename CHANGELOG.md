@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### 2.0.1
+
+- Use `storag-engine@3.0` which will automatically detect the correct
+  AsyncStorage implementation.
+- The upgrade also fixes a bug where it the `debug` and `diagnostics` values
+  to be JSON encoded instead of regular plain text. 
+
 ### 2.0.0
 
 - Documentation improvements.
