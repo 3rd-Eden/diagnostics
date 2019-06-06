@@ -1,11 +1,16 @@
 # CHANGELOG
 
+### 2.0.2
+
+- Bump to kuler 2.0, which removes colornames as dependency, which we
+  never used. So smaller install size, less dependencies for all. 
+
 ### 2.0.1
 
 - Use `storag-engine@3.0` which will automatically detect the correct
   AsyncStorage implementation.
 - The upgrade also fixes a bug where it the `debug` and `diagnostics` values
-  to be JSON encoded instead of regular plain text. 
+  to be JSON encoded instead of regular plain text.
 
 ### 2.0.0
 

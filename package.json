@@ -1,6 +1,6 @@
 {
   "name": "diagnostics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Tools for debugging your node.js modules and event loop",
   "main": "./node",
   "browser": "./browser",
@@ -56,7 +56,7 @@
   "dependencies": {
     "colorspace": "1.1.x",
     "enabled": "2.0.x",
-    "kuler": "1.0.x",
+    "kuler": "^2.0.0",
     "storage-engine": "3.0.x"
   },
   "contributors": [
