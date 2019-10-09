@@ -61,6 +61,11 @@ describe('diagnostics(adapters)', function () {
       assume(env('process:env')).is.true();
     });
 
+    it('considers excluded namespace', function () {
+      process.env.DEBUG = '*,-process:env'
+      assume(env('process:env')).is.false();
+    });
+
     it('reads the DIAGNOSTICS key', function () {
       process.env.DIAGNOSTICS = 'no*'
       assume(env('no:joke')).is.true();
