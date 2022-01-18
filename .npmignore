@@ -84,3 +84,4 @@ test
 dist
 .travis.yml
 example.js
+example.png
