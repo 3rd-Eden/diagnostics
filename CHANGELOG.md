@@ -1,9 +1,14 @@
 # CHANGELOG
 
+### 3.0.0
+
+- Removed React-Native support
+- Added types.
+
 ### 2.0.2
 
 - Bump to kuler 2.0, which removes colornames as dependency, which we
-  never used. So smaller install size, less dependencies for all. 
+  never used. So smaller install size, less dependencies for all.
 
 ### 2.0.1
 

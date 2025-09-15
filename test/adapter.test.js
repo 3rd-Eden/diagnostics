@@ -1,12 +1,8 @@
 const localstorage = require('../adapters/localstorage');
-const asyncstorage = require('../adapters/asyncstorage');
 const env = require('../adapters/process.env');
 const { describe, it } = require('mocha');
-let storage = require('storage-engine');
 const hash = require('../adapters/hash');
 const assume = require('assume');
-
-if (storage.default) storage = storage.default;
 
 describe('diagnostics(adapters)', function () {
   describe('hash', function () {
@@ -64,26 +60,6 @@ describe('diagnostics(adapters)', function () {
     it('reads the DIAGNOSTICS key', function () {
       process.env.DIAGNOSTICS = 'no*'
       assume(env('no:joke')).is.true();
-    });
-  });
-
-  describe('asyncstorage', function () {
-    afterEach(async function () {
-      await storage.clear();
-    });
-
-    it('is disabled by default', async function () {
-      assume(await asyncstorage('async:storage')).is.false();
-    });
-
-    it('reads the debug key', async function () {
-      await storage.setItem('debug', 'async*');
-      assume(await asyncstorage('async:storage')).is.true();
-    });
-
-    it('reads the diagnostics key', async function () {
-      await storage.setItem('diagnostics', 'it*');
-      assume(await asyncstorage('it:works')).is.true();
     });
   });
 });

@@ -1,12 +1,11 @@
 # `diagnostics`
 
-Diagnostics in the evolution of debug pattern that is used in the Node.js core,  
+Diagnostics in the evolution of debug pattern that is used in the Node.js core,
 this extremely small but powerful technique can best be compared as feature
 flags for loggers. The created debug logger is disabled by default but can be
 enabled without changing a line of code, using flags.
 
-- Allows debugging in multiple JavaScript environments such as Node.js, browsers
-  and React-Native.
+- Allows debugging in multiple JavaScript environments such as Node.js and browsers.
 - Separated development and production builds to minimize impact on your
   application when bundled.
 - Allows for customization of logger, messages, and much more.
@@ -42,7 +41,6 @@ npm install --save diagnostics
   - [process.env](#process-env)
   - [hash](#hash)
   - [localStorage](#localstorage)
-  - [AsyncStorage](#asyncstorage)
 - [Loggers](#loggers)
 
 ### Introduction
@@ -79,7 +77,6 @@ in your specific environment click on one of the enabled adapters below.
 
 - **browser**: [localStorage](#localstorage), [hash](#hash)
 - **node.js**: [environment variables](#processenv)
-- **react-native**: [AsyncStorage](#asyncstorage)
 
 Please note that the returned logger is fully configured out of the box, you
 do not need to set any of the adapters/modifiers your self, they are there
@@ -440,28 +437,7 @@ localStorage.setItem('debug', 'foo*');
 It triggers on both the `debug` and `diagnostics` storage items. (Please note
 that these keys should be entered in lowercase)
 
-#### AsyncStorage
 
-This adapter is enabled for `react-native`.
-
-This adapter uses the `AsyncStorage` API that is exposed by the `react-native`
-library to store and read the `debug` or `diagnostics` storage items.
-
-```js
-import { AsyncStorage } from 'react-native';
-
-AsyncStorage.setItem('debug', 'foo*');
-```
-
-Unlike other adapters, this is the only adapter that is `async` so that means
-that we're not able to instantly determine if a created logger should be
-enabled or disabled. So when a logger is created in `react-native` we initially
-assume it's disabled, any message that send during period will be queued
-internally.
-
-Once we've received the data from the `AsyncStorage` API we will determine
-if the logger should be enabled, flush the queued messages if needed and set
-all `enabled` properties accordingly on the returned logger.
 
 ### Loggers
 
